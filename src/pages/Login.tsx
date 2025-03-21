@@ -9,6 +9,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { BlurContainer } from "@/components/ui/BlurContainer";
 import { Logo } from "@/components/icons";
 import { toast } from "sonner";
+import { Progress } from "@/components/ui/progress";
+import { Award, CreditCard, RefreshCcw, Wallet } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,6 +20,9 @@ const Login = () => {
     password: "",
     rememberMe: false,
   });
+  
+  // For demo purposes - showing the reward panel
+  const [showRewardPreview, setShowRewardPreview] = useState(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -51,20 +56,20 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-16 px-6 flex items-center justify-center">
-      <div className="w-full max-w-md">
-        <FadeTransition>
-          <div className="text-center mb-8">
-            <Logo className="text-primary mx-auto mb-4" size={40} />
-            <h1 className="heading-lg mb-2">Welcome Back</h1>
-            <p className="text-muted-foreground">
-              Log in to your Feedback Hub account
-            </p>
-          </div>
-        </FadeTransition>
+    <div className="min-h-screen pt-16 md:pt-24 pb-16 px-6 flex flex-col items-center justify-center">
+      <FadeTransition>
+        <div className="text-center mb-8">
+          <Logo className="text-primary mx-auto mb-4" size={40} />
+          <h1 className="heading-lg mb-2">Welcome Back</h1>
+          <p className="text-muted-foreground">
+            Log in to view your rewards and continue giving valuable feedback
+          </p>
+        </div>
+      </FadeTransition>
 
+      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <FadeTransition delay={100}>
-          <BlurContainer className="p-1">
+          <BlurContainer className="p-1" elevation="medium">
             <Card className="border-0 shadow-none bg-transparent">
               <CardHeader className="px-6 pt-6">
                 <CardTitle>Log In</CardTitle>
@@ -198,6 +203,118 @@ const Login = () => {
             </Card>
           </BlurContainer>
         </FadeTransition>
+
+        {/* Rewards Preview Panel - shows what users will see after login */}
+        {showRewardPreview && (
+          <FadeTransition delay={200}>
+            <BlurContainer 
+              className="p-6 md:p-8 hidden lg:block" 
+              intensity="light" 
+              elevation="medium" 
+              gradient 
+              glow
+            >
+              <div className="text-center mb-6">
+                <h2 className="heading-sm mb-2">Your Rewards Dashboard</h2>
+                <p className="text-muted-foreground">
+                  Log in to access your feedback rewards
+                </p>
+              </div>
+
+              {/* Total Rewards Card */}
+              <BlurContainer className="p-6 mb-6" intensity="medium" border>
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-medium">Total Points</h3>
+                    <p className="text-muted-foreground text-sm">Accumulated rewards</p>
+                  </div>
+                  <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                    <Award size={24} />
+                  </div>
+                </div>
+                <div>
+                  <span className="text-3xl font-semibold">2,500</span>
+                  <span className="text-muted-foreground ml-2">points</span>
+                </div>
+                <div className="mt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-muted-foreground">Withdrawal threshold</span>
+                    <span className="text-sm font-medium">50%</span>
+                  </div>
+                  <Progress value={50} className="h-2" />
+                  <p className="text-xs text-muted-foreground mt-2">
+                    2,500 / 5,000 points needed to withdraw
+                  </p>
+                </div>
+              </BlurContainer>
+
+              {/* Recent Activity */}
+              <BlurContainer className="p-6 mb-6" intensity="medium" border>
+                <h3 className="text-lg font-medium mb-4 flex items-center">
+                  <RefreshCcw size={16} className="mr-2" /> Recent Activity
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-800">
+                    <div>
+                      <p className="font-medium text-sm">Smartphone Review</p>
+                      <p className="text-xs text-muted-foreground">Yesterday</p>
+                    </div>
+                    <span className="text-green-600 font-medium">+500 pts</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-3 border-b border-gray-100 dark:border-gray-800">
+                    <div>
+                      <p className="font-medium text-sm">Video Feedback</p>
+                      <p className="text-xs text-muted-foreground">3 days ago</p>
+                    </div>
+                    <span className="text-green-600 font-medium">+1,000 pts</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="font-medium text-sm">Survey Completion</p>
+                      <p className="text-xs text-muted-foreground">Last week</p>
+                    </div>
+                    <span className="text-green-600 font-medium">+500 pts</span>
+                  </div>
+                </div>
+              </BlurContainer>
+
+              {/* Redemption Options */}
+              <BlurContainer className="p-6" intensity="medium" border>
+                <h3 className="text-lg font-medium mb-4 flex items-center">
+                  <Wallet size={16} className="mr-2" /> Redemption Options
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-3 border border-gray-100 dark:border-gray-800 rounded-lg flex items-center">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3">
+                      <CreditCard size={16} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">Bank Transfer</p>
+                      <p className="text-xs text-muted-foreground">5,000 pts min</p>
+                    </div>
+                  </div>
+                  <div className="p-3 border border-gray-100 dark:border-gray-800 rounded-lg flex items-center">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-3">
+                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.473 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42c.031-.199.052-.405.062-.615.062-1.436-.303-2.507-1.134-3.545C19.148 1.546 17.294.97 14.825.97H6.236c-.524 0-.968.382-1.05.9L2.004 20.048c-.083.519.171.945.698.945h4.598l.77-4.88 1.85-11.71c.082-.519.527-.901 1.051-.901h6.47c2.568.001 3.73 1.385 3.781 3.415z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">PayPal</p>
+                      <p className="text-xs text-muted-foreground">2,500 pts min</p>
+                    </div>
+                  </div>
+                </div>
+              </BlurContainer>
+
+              <div className="mt-6 text-center">
+                <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setShowRewardPreview(false)}>
+                  Hide preview
+                </Button>
+              </div>
+            </BlurContainer>
+          </FadeTransition>
+        )}
       </div>
     </div>
   );
