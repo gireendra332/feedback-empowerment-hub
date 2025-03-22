@@ -1,11 +1,36 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FadeTransition } from "@/components/ui/FadeTransition";
 import { BlurContainer } from "@/components/ui/BlurContainer";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 const Index = () => {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleWaitlistSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !name) {
+      toast.error("Please enter both your name and email");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      toast.success(`Thank you, ${name}! You're now on our waitlist.`);
+      setEmail("");
+      setName("");
+      setIsSubmitting(false);
+    }, 1500);
+  };
+
   return (
     <div className="min-h-screen pt-20 pb-16">
       <div className="container px-4 mx-auto">
@@ -39,6 +64,66 @@ const Index = () => {
               <p className="text-accessible-lg">
                 At Feedback Hub, your opinions matter. Share your thoughts on our selected product and earn points instantly. It's quick, simple, and completely free!
               </p>
+            </BlurContainer>
+          </section>
+        </FadeTransition>
+
+        {/* Waitlist Section */}
+        <FadeTransition delay={50}>
+          <section className="py-16">
+            <BlurContainer 
+              className="p-10 md:p-12 max-w-3xl mx-auto text-center"
+              intensity="light"
+              premium
+              glassmorphism
+              glow
+              elevation="medium"
+              rounded="large"
+            >
+              <h2 className="heading-lg text-accessible-2xl font-bold mb-6">
+                Join the Waitlist
+              </h2>
+              <p className="text-accessible-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+                Be the first to know when we launch new features. We'll notify you as soon as we're ready!
+              </p>
+              
+              <form onSubmit={handleWaitlistSubmit} className="space-y-4 max-w-md mx-auto">
+                <div className="space-y-2">
+                  <Input
+                    type="text"
+                    placeholder="Your Name"
+                    className="h-14 text-accessible-base bg-background/50 border-primary/10 focus-visible:border-primary"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Input
+                    type="email"
+                    placeholder="Your Email"
+                    className="h-14 text-accessible-base bg-background/50 border-primary/10 focus-visible:border-primary"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <Button 
+                  type="submit"
+                  size="lg"
+                  className="w-full h-14 text-accessible-lg font-medium transition-all hover:scale-[1.02] shadow-md"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Joining..." : "Join Waitlist"}
+                </Button>
+              </form>
+              
+              <div className="mt-6 text-accessible-base text-muted-foreground flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                Your information is secure and will never be shared
+              </div>
             </BlurContainer>
           </section>
         </FadeTransition>
