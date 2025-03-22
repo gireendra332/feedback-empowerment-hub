@@ -81,6 +81,15 @@ export default {
 					gold: "#FFD700",
 					silver: "#C0C0C0",
 					bronze: "#CD7F32",
+				},
+				// Accessibility colors
+				accessible: {
+					highlight: "rgba(0, 113, 227, 0.2)",
+					focus: "rgba(0, 113, 227, 0.4)",
+					button: "rgba(0, 113, 227, 1)",
+					buttonHover: "rgba(0, 90, 200, 1)",
+					text: "rgba(0, 0, 0, 0.9)",
+					lightText: "rgba(0, 0, 0, 0.7)",
 				}
 			},
 			borderRadius: {
@@ -140,6 +149,15 @@ export default {
 					'100%': { 
 						backgroundPosition: '500px 0' 
 					}
+				},
+				// New accessibility animations
+				'accessible-pulse': {
+					'0%, 100%': { 
+						boxShadow: '0 0 0 4px rgba(0, 113, 227, 0.2)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 0 8px rgba(0, 113, 227, 0.1)' 
+					}
 				}
 			},
 			animation: {
@@ -151,13 +169,24 @@ export default {
 				'blur-in': 'blur-in 0.6s ease-out',
 				'float': 'float 6s ease-in-out infinite',
 				'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
-				'shimmer': 'shimmer 2s infinite linear'
+				'shimmer': 'shimmer 2s infinite linear',
+				// New accessibility animations
+				'accessible-pulse': 'accessible-pulse 2s ease-in-out infinite'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'noise': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')",
 				'premium-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
 				'shimmer-gradient': 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%)'
+			},
+			// New font sizes for better accessibility
+			fontSize: {
+				'accessible-sm': '1rem', // 16px minimum
+				'accessible-base': '1.125rem', // 18px
+				'accessible-lg': '1.25rem', // 20px
+				'accessible-xl': '1.5rem', // 24px
+				'accessible-2xl': '1.75rem', // 28px
+				'accessible-3xl': '2rem', // 32px
 			}
 		}
 	},

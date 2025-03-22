@@ -11,6 +11,8 @@ interface BlurContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   glow?: boolean;
   gradient?: boolean;
   elevation?: "none" | "low" | "medium" | "high";
+  accessible?: boolean; // New prop for extra-accessible styling
+  rounded?: "none" | "small" | "medium" | "large" | "full"; // New prop for customizable border radius
 }
 
 const BlurContainer = ({
@@ -22,6 +24,8 @@ const BlurContainer = ({
   glow = false,
   gradient = false,
   elevation = "none",
+  accessible = false, // Default to standard styling
+  rounded = "medium", // Default to medium rounding
   ...props
 }: BlurContainerProps) => {
   const intensityMap = {
@@ -36,17 +40,26 @@ const BlurContainer = ({
     medium: "shadow-md",
     high: "shadow-lg",
   };
+  
+  const roundedMap = {
+    none: "rounded-none",
+    small: "rounded",
+    medium: "rounded-xl",
+    large: "rounded-2xl",
+    full: "rounded-full",
+  };
 
   return (
     <div
       className={cn(
         intensityMap[intensity],
         border && "border border-white/20 dark:border-white/10",
-        "rounded-xl",
+        roundedMap[rounded],
         elevationMap[elevation],
         hover && "transition-all duration-300 hover:bg-white/60 dark:hover:bg-black/50 hover:shadow-md",
         glow && "shadow-[0_0_15px_rgba(255,255,255,0.15)] dark:shadow-[0_0_20px_rgba(255,255,255,0.08)]",
         gradient && "bg-gradient-to-br from-white/50 to-white/30 dark:from-black/40 dark:to-black/20",
+        accessible && "border-2 border-primary/20 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/30",
         className
       )}
       {...props}
