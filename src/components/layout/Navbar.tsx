@@ -47,7 +47,7 @@ const Navbar = () => {
       >
         <Link to="/" className="flex items-center">
           <Logo className="text-primary" size={32} />
-          <span className="ml-2 text-accessible-xl font-medium">Feedback Hub</span>
+          <span className="ml-2 text-accessible-xl font-medium">99feedback</span>
         </Link>
 
         {/* Desktop Navigation */}

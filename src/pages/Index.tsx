@@ -62,7 +62,7 @@ const Index = () => {
               glow
             >
               <p className="text-accessible-lg">
-                At Feedback Hub, your opinions matter. Share your thoughts on our selected product and earn points instantly. It's quick, simple, and completely free!
+                At 99feedback, your opinions matter. Share your thoughts on our selected product and earn points instantly. It's quick, simple, and completely free!
               </p>
             </BlurContainer>
           </section>
@@ -219,7 +219,7 @@ const Index = () => {
         {/* Footer */}
         <FadeTransition delay={300}>
           <footer className="py-8 text-center text-muted-foreground text-accessible-base">
-            <p>&copy; {new Date().getFullYear()} Feedback Hub. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} 99feedback. All rights reserved.</p>
           </footer>
         </FadeTransition>
       </div>
