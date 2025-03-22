@@ -28,7 +28,6 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Feedback", path: "/feedback" },
-    { name: "Dashboard", path: "/dashboard" },
   ];
 
   return (
@@ -44,10 +43,11 @@ const Navbar = () => {
           scrolled && "shadow-md"
         )}
         intensity={scrolled ? "medium" : "light"}
+        glow={true}
       >
         <Link to="/" className="flex items-center">
           <Logo className="text-primary" size={32} />
-          <span className="ml-2 text-lg font-medium">Feedback Hub</span>
+          <span className="ml-2 text-accessible-xl font-medium">Feedback Hub</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -57,7 +57,7 @@ const Navbar = () => {
               key={link.name}
               to={link.path}
               className={cn(
-                "link-hover font-light transition-colors",
+                "link-hover font-medium text-accessible-base transition-colors",
                 location.pathname === link.path
                   ? "text-primary"
                   : "text-foreground/70 hover:text-foreground"
@@ -66,15 +66,6 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          
-          <div className="ml-4 space-x-2">
-            <Button asChild variant="ghost" size="sm">
-              <Link to="/login">Log in</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link to="/register">Sign up</Link>
-            </Button>
-          </div>
         </div>
 
         {/* Mobile Menu Button */}
@@ -124,7 +115,7 @@ const Navbar = () => {
               key={link.name}
               to={link.path}
               className={cn(
-                "text-xl font-medium transition-colors",
+                "text-accessible-xl font-medium transition-colors",
                 location.pathname === link.path
                   ? "text-primary"
                   : "text-foreground/70 hover:text-foreground"
@@ -133,18 +124,6 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <div className="pt-6 flex flex-col space-y-4 w-full max-w-xs">
-            <Button asChild variant="outline" size="lg">
-              <Link to="/login" className="w-full">
-                Log in
-              </Link>
-            </Button>
-            <Button asChild size="lg">
-              <Link to="/register" className="w-full">
-                Sign up
-              </Link>
-            </Button>
-          </div>
         </div>
       </div>
     </nav>
