@@ -1,15 +1,16 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BlurContainer } from "@/components/ui/BlurContainer";
 import { Logo } from "@/components/icons";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +34,7 @@ const Navbar = () => {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 py-4 px-6 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 py-4 px-6 transition-all duration-300 border-b",
         scrolled && "py-3"
       )}
     >
@@ -45,7 +46,7 @@ const Navbar = () => {
         intensity={scrolled ? "medium" : "light"}
         glow={true}
       >
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center font-semibold text-lg">
           <Logo className="text-primary" size={32} />
           <span className="ml-2 text-accessible-xl font-medium">99feedback</span>
         </Link>
@@ -66,6 +67,22 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+          <div className="flex items-center gap-2">
+            {!isAuthenticated ? (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost">Login</Button>
+                </Link>
+                <Link to="/register">
+                  <Button>Sign up</Button>
+                </Link>
+              </>
+            ) : (
+              <Button variant="ghost" onClick={logout}>
+                Logout
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
@@ -124,6 +141,22 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+          <div className="flex items-center gap-2">
+            {!isAuthenticated ? (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost">Login</Button>
+                </Link>
+                <Link to="/register">
+                  <Button>Sign up</Button>
+                </Link>
+              </>
+            ) : (
+              <Button variant="ghost" onClick={logout}>
+                Logout
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </nav>

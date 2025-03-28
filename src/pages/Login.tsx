@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FadeTransition } from "@/components/ui/FadeTransition";
@@ -9,9 +8,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { BlurContainer } from "@/components/ui/BlurContainer";
 import { Logo } from "@/components/icons";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
@@ -41,12 +42,13 @@ const Login = () => {
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
+      login(); // Call login function from context
       toast.success("Login successful!", {
         description: "Welcome back to Feedback Hub!",
       });
       
-      // Navigate to dashboard after successful login
-      navigate("/dashboard");
+      // Navigate to home page after successful login
+      navigate("/");
     }, 1500);
   };
 
