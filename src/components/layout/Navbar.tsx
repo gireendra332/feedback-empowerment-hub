@@ -5,6 +5,7 @@ import { BlurContainer } from "@/components/ui/BlurContainer";
 import { Logo } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { Profile } from "@/components/Profile";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -67,7 +68,7 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             {!isAuthenticated ? (
               <>
                 <Link to="/login">
@@ -78,9 +79,12 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <Button variant="ghost" onClick={logout}>
-                Logout
-              </Button>
+              <>
+                <Profile />
+                <Button variant="ghost" onClick={logout}>
+                  Logout
+                </Button>
+              </>
             )}
           </div>
         </div>
@@ -141,7 +145,7 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col items-center gap-4">
             {!isAuthenticated ? (
               <>
                 <Link to="/login">
@@ -152,9 +156,12 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <Button variant="ghost" onClick={logout}>
-                Logout
-              </Button>
+              <>
+                <Profile />
+                <Button variant="ghost" onClick={logout}>
+                  Logout
+                </Button>
+              </>
             )}
           </div>
         </div>
