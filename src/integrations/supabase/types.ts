@@ -24,6 +24,30 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          id: string
+          email: string
+          name?: string
+          avatar_url?: string
+          created_at?: string
+        }
+        Insert: {
+          id?: string
+          email?: string
+          name?: string
+          avatar_url?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          name?: string
+          avatar_url?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
