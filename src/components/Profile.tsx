@@ -17,13 +17,13 @@ export const Profile = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="w-8 h-8 p-0">
           <Avatar>
-            <AvatarFallback>{user?.?.[0] || 'U'}</AvatarFallback>
+            <AvatarFallback>{user?.name?.[0] || 'U'}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 p-4">
         <div className="flex flex-col space-y-2">
-          <p className="text-sm font-medium">{user?.name= || 'User'}</p>
+          <p className="text-sm font-medium">{user?.name || 'User'}</p>
           <p className="text-sm font-medium text-primary">{points} Points</p>
           <p className="text-xs text-muted-foreground">{feedbackCount} Feedbacks</p>
         </div>
