@@ -81,9 +81,9 @@ const Navbar = () => {
             ) : (
               <>
                 <Profile />
-                <Button variant="ghost" onClick={logout}>
+                {/* <Button variant="ghost" onClick={logout}>
                   Logout
-                </Button>
+                </Button> */}
               </>
             )}
           </div>
