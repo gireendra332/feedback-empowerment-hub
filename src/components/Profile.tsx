@@ -78,14 +78,14 @@ export const Profile = () => {
                   </div>
                 </div>
 
-                {/* <Button 
+                <Button 
                   variant="destructive" 
                   className="w-full"
                   onClick={handleLogout}
                 >
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout
-                </Button> */}
+                </Button>
               </div>
             </>
           )}
