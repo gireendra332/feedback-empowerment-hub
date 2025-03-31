@@ -130,6 +130,28 @@ const Navbar = () => {
           mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         )}
       >
+        {/* Add close button */}
+        <button
+          className="absolute top-6 left-6 p-2 text-foreground"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-label="Close mobile menu"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 18L18 6M6 6L18 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
         <div className="flex flex-col items-center justify-center min-h-screen space-y-8 p-8">
           {navLinks.map((link) => (
             <Link

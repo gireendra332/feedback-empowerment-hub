@@ -10,13 +10,39 @@ import {
 import { Button } from "@/components/ui/button";
 import { LogOut, Edit } from "lucide-react";
 import { ProfileEdit } from "./ProfileEdit";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 export const Profile = () => {
   const { user, logout } = useAuth();
-  const points = user?.stats?.points ?? 0;
-  const feedbackCount = user?.stats?.feedbackCount ?? 0;
+  const [stats, setStats] = useState({ points: 0, feedbackCount: 0 });
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  const fetchUserStats = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('user_stats')
+        .select('points, feedback_count')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      if (data) {
+        setStats({
+          points: data.points,
+          feedbackCount: data.feedback_count
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching user stats:', error);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -70,11 +96,11 @@ export const Profile = () => {
                 <div className="bg-secondary p-4 rounded-lg">
                   <div className="flex justify-between items-center">
                     <p className="text-sm font-medium">Total Points</p>
-                    <p className="text-primary font-semibold">{points}</p>
+                    <p className="text-primary font-semibold">{stats.points}</p>
                   </div>
                   <div className="flex justify-between items-center mt-2">
                     <p className="text-sm font-medium">Feedbacks Given</p>
-                    <p className="text-muted-foreground">{feedbackCount}</p>
+                    <p className="text-muted-foreground">{stats.feedbackCount}</p>
                   </div>
                 </div>
 
