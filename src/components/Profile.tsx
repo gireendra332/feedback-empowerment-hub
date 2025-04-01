@@ -25,24 +25,50 @@ export const Profile = () => {
   }, [user]);
 
   const fetchUserStats = async () => {
+    if (!user?.id) return;
+    
     try {
-      const { data, error } = await supabase
+      // First, ensure stats exist
+      const { data: existingStats, error: checkError } = await supabase
         .from('user_stats')
-        .select('points, feedback_count')
+        .select('*')
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
-      if (data) {
+      if (!existingStats) {
+        // Create initial stats if they don't exist
+        const { data: newStats, error: insertError } = await supabase
+          .from('user_stats')
+          .insert([
+            { id: user.id, points: 0, feedback_count: 0 }
+          ])
+          .select()
+          .single();
+
+        if (!insertError && newStats) {
+          setStats({
+            points: newStats.points,
+            feedbackCount: newStats.feedback_count
+          });
+        }
+      } else {
         setStats({
-          points: data.points,
-          feedbackCount: data.feedback_count
+          points: existingStats.points,
+          feedbackCount: existingStats.feedback_count
         });
       }
     } catch (error) {
       console.error('Error fetching user stats:', error);
     }
   };
+
+  // Add this effect to refresh stats periodically
+  useEffect(() => {
+    if (user) {
+      const interval = setInterval(fetchUserStats, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [user]);
 
   const handleLogout = async () => {
     try {

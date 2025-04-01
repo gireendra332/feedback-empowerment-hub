@@ -75,8 +75,33 @@ const Feedback = () => {
     setIsSubmitting(true);
 
     try {
-      // First, try to insert the feedback
-      const { data: feedbackData, error: feedbackError } = await supabase
+      // First, ensure user stats exist
+      let { data: userStats, error: statsCheckError } = await supabase
+        .from('user_stats')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (!userStats) {
+        // Create initial stats if they don't exist
+        const { data: newStats, error: createError } = await supabase
+          .from('user_stats')
+          .insert([
+            { 
+              id: user.id, 
+              points: 0, 
+              feedback_count: 0
+            }
+          ])
+          .select()
+          .single();
+
+        if (createError) throw createError;
+        userStats = newStats;
+      }
+
+      // Then insert feedback
+      const { error: feedbackError } = await supabase
         .from('feedback')
         .insert({
           user_id: user.id,
@@ -85,34 +110,28 @@ const Feedback = () => {
           price_rating: ratings.price,
           performance_rating: ratings.performance,
           comment: comment || null
-        })
-        .select()
-        .single();
-
-      if (feedbackError) {
-        console.error('Feedback error:', feedbackError);
-        throw new Error('Failed to submit feedback');
-      }
-
-      // Then, update the user stats
-      const { data: statsData, error: statsError } = await supabase
-        .rpc('increment_user_stats', {
-          user_id: user.id,
-          points_to_add: 100
         });
 
-      if (statsError) {
-        console.error('Stats error:', statsError);
-        throw new Error('Failed to update points');
-      }
+      if (feedbackError) throw feedbackError;
+
+      // Finally update user stats
+      const { error: updateError } = await supabase
+        .from('user_stats')
+        .update({
+          points: (userStats.points || 0) + 100,
+          feedback_count: (userStats.feedback_count || 0) + 1
+        })
+        .eq('id', user.id);
+
+      if (updateError) throw updateError;
 
       setIsSubmitted(true);
       toast.success("Thank you for your feedback! You earned 100 points.", {
         description: "Your input is greatly appreciated.",
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Submission error:', error);
-      toast.error("Failed to submit feedback. Please try again.");
+      toast.error(error.message || "Failed to submit feedback. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -389,7 +408,7 @@ const Feedback = () => {
                         <p className="font-medium text-accessible-lg">Reward for this submission</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-accessible-xl font-bold text-primary">500 points</p>
+                        <p className="text-accessible-xl font-bold text-primary">100 points</p>
                       </div>
                     </div>
                   </BlurContainer>
@@ -424,7 +443,7 @@ const Feedback = () => {
                   </div>
                   <h1 className="text-accessible-3xl font-bold mb-4">Thank You!</h1>
                   <p className="text-accessible-xl mb-8">
-                    Your feedback has been received and you've earned <span className="text-primary font-bold">500 points</span>!
+                    Your feedback has been received and you've earned <span className="text-primary font-bold">100 points</span>!
                   </p>
                   <Button asChild size="lg" className="text-accessible-lg py-6 px-8">
                     <Link to="/">Return Home</Link>
